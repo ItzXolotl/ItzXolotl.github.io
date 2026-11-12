@@ -59,6 +59,33 @@ footer{padding:28px max(24px,6vw);border-top:1px solid var(--line);color:var(--d
 .btn.soon:hover{border-color:var(--line);color:var(--dim)}
 @media(max-width:860px){.hero{grid-template-columns:1fr}.art{order:-1;padding:20px 0}.art::before{display:none}nav .links{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* animation */
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 90px #8a102822}50%{box-shadow:0 0 150px #e0364a40}}
+@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(-2vw,-2vw)}}
+@keyframes shine{from{background-position:-200% 0}to{background-position:200% 0}}
+.hero>div:first-child>*{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero>div:first-child>*:nth-child(1){animation-delay:.05s}
+.hero>div:first-child>*:nth-child(2){animation-delay:.15s}
+.hero>div:first-child>*:nth-child(3){animation-delay:.3s}
+.hero>div:first-child>*:nth-child(4){animation-delay:.4s}
+.hero>div:first-child>*:nth-child(5){animation-delay:.5s}
+.hero>div:first-child>*:nth-child(6){animation-delay:.6s}
+.hero>div:first-child>*:nth-child(7){animation-delay:.75s}
+.hero>div:first-child>*:nth-child(8){animation-delay:.9s}
+.art{animation:rise 1.2s .3s cubic-bezier(.2,.7,.2,1) both}
+.art::before{border-top-color:var(--red);animation:spin 22s linear infinite}
+.pic{animation:float 6s ease-in-out infinite,glow 4s ease-in-out infinite}
+.glyph{animation:drift 14s ease-in-out infinite}
+h1{background:linear-gradient(100deg,var(--ink) 40%,#ff8a99 50%,var(--ink) 60%) 0 0/200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:rise .9s .15s both,shine 6s 1.5s linear infinite}
+.p{transition:background .25s,transform .25s}
+.p:hover{background:#150a0d}
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.js .rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.js .rv{opacity:1;transform:none}h1{-webkit-text-fill-color:var(--ink)}}
 </style>
 </head>
 <body>
@@ -95,19 +122,26 @@ footer{padding:28px max(24px,6vw);border-top:1px solid var(--line);color:var(--d
 <section id="projects">
   <h2>Coming soon — Projects</h2>
   <div class="grid">
-    <div class="p"><h3>GodSpeed <em>(Circuit)</em></h3><p>A Windows Desktop software that allows you to customize it to its full ability.</p><span class="btn soon pb" aria-disabled="true">Coming soon</span></div>
-    <div class="p"><h3>Alternation <em>(if possible)</em></h3><p>Translates Minecraft’s code to Rust and all mods added to the same instance.</p><span class="btn soon pb" aria-disabled="true">Coming soon</span></div>
-    <div class="p"><h3>Angelic</h3><p>A Minecraft mod that provides full customizability to Minecraft’s GUI and overall game. Similar to Linux Arch desktops.</p><span class="btn soon pb" aria-disabled="true">Coming soon</span></div>
-    <div class="p"><h3>Ascended</h3><p>Idk I just like the name.</p><span class="btn soon pb" aria-disabled="true">Coming soon</span></div>
+    <div class="p rv"><h3>GodSpeed <em>(Circuit)</em></h3><p>A Windows Desktop software that allows you to customize it to its full ability.</p><span class="btn soon pb" aria-disabled="true">Coming soon</span></div>
+    <div class="p rv"><h3>Alternation <em>(if possible)</em></h3><p>Translates Minecraft’s code to Rust and all mods added to the same instance.</p><span class="btn soon pb" aria-disabled="true">Coming soon</span></div>
+    <div class="p rv"><h3>Angelic</h3><p>A Minecraft mod that provides full customizability to Minecraft’s GUI and overall game. Similar to Linux Arch desktops.</p><span class="btn soon pb" aria-disabled="true">Coming soon</span></div>
+    <div class="p rv"><h3>Ascended</h3><p>Idk I just like the name.</p><span class="btn soon pb" aria-disabled="true">Coming soon</span></div>
   </div>
   <div class="extra" id="extra">
     <h2>Coming soon — Extra projects</h2>
     <div class="grid">
-      <div class="p"><h3>Raspberry Client</h3><p>A Minecraft mod/client that makes Minecraft’s experience much better. A much cleaner way to play.</p><a class="btn fill pb" href="https://discord.gg/aVXvafZwDK" target="_blank" rel="noopener">Join Discord</a></div>
+      <div class="p rv"><h3>Raspberry Client</h3><p>A Minecraft mod/client that makes Minecraft’s experience much better. A much cleaner way to play.</p><a class="btn fill pb" href="https://discord.gg/aVXvafZwDK" target="_blank" rel="noopener">Join Discord</a></div>
     </div>
   </div>
 </section>
 
 <footer><span>© itzxolotl</span><span><a href="https://www.youtube.com/@itzxolotl" target="_blank" rel="noopener">YouTube</a> · <a href="https://discord.gg/BG388fkES9" target="_blank" rel="noopener">Discord</a></span></footer>
+<script>
+document.documentElement.classList.add('js');
+(function(){var els=document.querySelectorAll('.rv');
+if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+els.forEach(function(e,i){e.style.transitionDelay=(i%4)*90+'ms';io.observe(e)});})();
+</script>
 </body>
 </html>
